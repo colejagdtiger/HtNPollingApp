@@ -41,6 +41,9 @@ def select_all_items(c, name):
     rows.append({'name' : name})
     return json.dumps(rows)
 
+def create_session(c, link): #incomplete still
+    pass
+
 def main():
     database = "./pythonsqlite.db"
     conn = create_connection(database)
