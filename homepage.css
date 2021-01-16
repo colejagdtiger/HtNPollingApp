@@ -1,0 +1,48 @@
+body
+{
+background-color:lightgray;
+font-family: Courier New, Helevetica;
+}
+#header{
+	font-family: Helevetica;
+	background-color: #000000;
+	color: white;
+	text-align: center;
+	font-size: 120%;
+}
+#layout{
+	background-color:white;
+	float:left;	
+}
+a{
+	text-decoration: none;
+	color: red;
+	
+}
+#nav 
+{
+	float: right;
+}
+#nav ul
+{
+	list-style-type: none;
+	
+}
+li:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.selected
+{
+	font-weight: bold;
+}
+
+#footer{
+	clear:both;
+	color:white;
+	text-align:right;
+	padding: 10px;
+	background-color: #000;
+}
+
+
