@@ -26,7 +26,8 @@
         flex-direction: column;
         justify-content: center;
       }
-      #right-wrap #question-wrap {
+
+      #question-wrap {
         margin: 0 20%;
       }
 
@@ -34,6 +35,7 @@
         font-size: 1.7em;
         color: #057df6;
         font-weight: bold;
+        margin-bottom: 24px;
       }
 
       .question-option-wrap {
@@ -54,6 +56,17 @@
       @media (max-width: 500px) {
         #container {
           flex-direction: column-reverse;
+        }
+        #left-wrap {
+          width: 100vw;
+          height: 50vw;
+        }
+        #right-wrap {
+          width: 100vw;
+          height: 100vw;
+        }
+        #question-wrap {
+          margin: 0 10%;
         }
       }
     </style>
