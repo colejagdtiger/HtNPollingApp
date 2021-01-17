@@ -7,6 +7,8 @@ from database import (
     update_item,
     set_question_for_pollid,
     get_question_for_pollid,
+    set_options_for_pollid,
+    get_options_for_pollid,
 )
 from flask_cors import CORS, cross_origin
 from pusher import Pusher
@@ -53,13 +55,19 @@ def index():
 def publish():
     data = simplejson.loads(request.data)
     set_question_for_pollid(c, data["poll_id"], data["question"])
+    set_options_for_pollid(c, data["poll_id"], data["choices"])
     return jsonify({"pollurl": "/polls/{0}".format(data["poll_id"])})
 
 
 @app.route("/polls/<pollid>", methods=["GET"])
 def poll(pollid):
     question_for_id = get_question_for_pollid(conn, pollid)[0]["content"]
-    return render_template("poll.html", question=question_for_id)
+    choices_for_id = [
+        choice["optname"] for choice in get_options_for_pollid(conn, pollid)
+    ]
+    return render_template(
+        "poll.html", question=question_for_id, choices=choices_for_id
+    )
 
 
 @app.route("/admin")
