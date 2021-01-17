@@ -41,12 +41,13 @@ def select_all_items(conn, name):
     rows.append({'name' : name})
     return json.dumps(rows)
 
+def reset_items(conn):
+    sql = ''' UPDATE items
+                SET votes = 0; '''
+    conn.execute(sql)
+
 def create_session(conn, link): #incomplete still
-    database = "./pythonsqlite.db"
-    conn = create_connection(database)
-    create_table(conn)
-    create_item(conn, "Yes")
-    create_item(conn, "No")
+    pass
 
 def main():
     database = "./pythonsqlite.db"

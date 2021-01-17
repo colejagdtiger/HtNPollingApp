@@ -1,7 +1,7 @@
 #main app file
 
 from flask import Flask, render_template, request, jsonify, make_response
-from database import create_connection, select_all_items, update_item
+from database import create_connection, select_all_items, update_item, reset_items
 from flask_cors import CORS, cross_origin
 from pusher import Pusher
 import simplejson
@@ -32,9 +32,10 @@ def main():
 def index():
     return render_template('index.html', var=question)
 
-@app.route('/admin', methods=['POST'])
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    # if (request.methods
+    if (request.method == 'POST'):
+        reset_items(conn)
     global question
     question = request.form.get('textbox')
     return render_template('admin.html')
