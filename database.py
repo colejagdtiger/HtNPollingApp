@@ -75,41 +75,40 @@ def get_options_for_pollid(c, pollid):
     return rows
 
 
-def create_table(c):
-    sql = """ 
-        CREATE TABLE IF NOT EXISTS items (
-            id integer PRIMARY KEY,
+def create_votes_table(c):
+    sql = """
+        CREATE TABLE IF NOT EXISTS votes (
             name varchar(225) NOT NULL,
             votes integer NOT NULL Default 0
-        ); 
+        );
     """
     c.execute(sql)
 
 
-def create_item(c, item):
-    sql = """ INSERT INTO items(name)
-                VALUES (?) """
-    c.execute(sql, item)
+def inc_vote(c, pollid, optname):
+    sql1 = """
+        INSERT OR IGNORE INTO votes (name, votes) VALUES(?, ?)
+    """
+    c.execute(sql1, (pollid + ":" + optname, 0))
+
+    sql2 = """
+        UPDATE votes
+            SET votes = votes+1
+            WHERE name = ?
+    """
+    c.execute(sql2, (pollid + ":" + optname,))
 
 
-def update_item(c, item):
-    sql = """ UPDATE items
-                SET votes = votes+1 
-                WHERE name = ? """
-    c.execute(sql, item)
-
-
-def select_all_items(c, name):
-    sql = """ SELECT * FROM items """
-    c.execute(sql)
-
-    rows = c.fetchall()
-    rows.append({"name": name})
-    return json.dumps(rows)
-
-
-def create_session(c, link):  # incomplete still
-    pass
+def get_votes(c, pollid, optname):
+    sql = """
+        SELECT votes FROM votes WHERE name = ? LIMIT 1
+    """
+    cur = c.cursor()
+    cur.execute(sql, (pollid + ":" + optname,))
+    row = cur.fetchall()
+    if len(row) <= 0:
+        return 0
+    return row[0]["votes"]
 
 
 def main():
@@ -117,6 +116,7 @@ def main():
     conn = create_connection(database)
     create_questions_table(conn)
     create_options_table(conn)
+    create_votes_table(conn)
     print("Connection established!")
 
 
