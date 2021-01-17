@@ -21,12 +21,12 @@ ssl=True)
 
 database = "./pythonsqlite.db"
 conn = create_connection(database)
-c = conn.cursor()
+cur = conn.cursor()
 hour = 3600
 question = 'Hello World'
 
 def main():
-    global conn, c, question
+    global conn, cur, question
 
 @app.route('/')
 def index():
@@ -46,9 +46,9 @@ def vote():
     print(v)
     if (v != data['member']):
         if (v != ''):
-            update_item(c, -1, v)
-        update_item(c, 1, data['member'])
-    output = select_all_items(c, data['member'])
+            update_item(cur, -1, v)
+        update_item(cur, 1, data['member'])
+    output = select_all_items(cur, data['member'])
     pusher.trigger(u'poll', u'vote', output)
     responce = make_response("")
     responce.set_cookie('vote', data['member'], 3600)
