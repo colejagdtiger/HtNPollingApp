@@ -20,9 +20,16 @@
         background-color: #041e37;
       }
       #right-wrap {
-        flex-grow: 1.5;
+        flex-grow: 1.2;
         background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
+      #right-wrap #question-wrap {
+        margin: 0 auto;
+      }
+
       @media (max-width: 500px) {
         #container {
           flex-direction: column-reverse;
@@ -34,9 +41,11 @@
     <div id="container">
       <div id="left-wrap"></div>
       <div id="right-wrap">
-        <p>Do you believe the climate is changing?</p>
-        <div><label>Yes</label><input type="radio" /></div>
-        <div><label>No</label><input type="radio" /></div>
+        <div id="question-wrap">
+          <p>Do you believe the climate is changing?</p>
+          <div><label>Yes</label><input type="radio" /></div>
+          <div><label>No</label><input type="radio" /></div>
+        </div>
       </div>
     </div>
   </body>
