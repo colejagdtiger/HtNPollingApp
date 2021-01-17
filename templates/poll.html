@@ -97,7 +97,7 @@
           {% for choice in choices %}
           <div class="question-option-wrap">
             <label>{{ choice }}</label
-            ><input type="radio" />
+            ><input name="choice" type="radio" />
           </div>
           {% endfor %}
           <button id="question-submit">Vote</button>
@@ -109,7 +109,7 @@
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='app.js') }}"
+      src="{{ url_for('static', filename='poll.js') }}"
       defer
     ></script>
   </body>
