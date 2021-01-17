@@ -70,22 +70,6 @@
         background-color: #041e37;
       }
 
-      #options-new {
-        margin-right: auto;
-      }
-
-      #options-label {
-        margin-top: 18px;
-      }
-
-      #options-list {
-        margin-top: 4px;
-      }
-
-      #options-list input {
-        margin: 4px;
-      }
-
       @media (max-width: 500px) {
         #container {
           flex-direction: column-reverse;
@@ -109,22 +93,23 @@
       <div id="left-wrap"></div>
       <div id="right-wrap">
         <div id="question-wrap">
-          <p class="question-text">Create a poll</p>
-          <input id="question-input" type="text" placeholder="Ask a question" />
-          <p id="options-label">Options</p>
-          <div id="options-list">
-            <input type="text" placeholder="Option 1" />
+          <p class="question-text">{{ question }}</p>
+          {% for choice in choices %}
+          <div class="question-option-wrap">
+            <label>{{ choice }}</label
+            ><input name="choice" value="{{ choice }}" type="radio" />
           </div>
-          <button id="options-new">Add option</button>
-          <button id="question-submit">Publish</button>
+          {% endfor %}
+          <button id="question-submit">Vote</button>
         </div>
       </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <script
       type="text/javascript"
-      src="{{ url_for('static', filename='app.js') }}"
+      src="{{ url_for('static', filename='poll.js') }}"
       defer
     ></script>
   </body>

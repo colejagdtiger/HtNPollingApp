@@ -1,37 +1,32 @@
+let optCount = 1;
+let optList = document.getElementById("options-list");
 
-var pollMembers = document.querySelectorAll('.poll-member')
-var members = ['Go', 'Python', 'PHP', 'Ruby']
-
-// Sets up click events for all the cards on the DOM
-pollMembers.forEach((pollMember, index) => {
-  pollMember.addEventListener('click', (event) => {
-    handlePoll(members[index])
-  }, true)
-})
-
-// Sends a POST request to the server using axios
-var handlePoll = function(member) {
-  axios.post('http://localhost:5000/vote', {member}).then((r) => console.log(r))
-}
-
-// Configure Pusher instance
-const pusher = new Pusher('4ac52c799ded4e369788', {
-  cluster: 'us2',
-  encrypted: true
+document.getElementById("options-new").addEventListener("click", () => {
+  let newOpt = document.createElement("input");
+  newOpt.type = "text";
+  newOpt.placeholder = `Option ${++optCount}`;
+  optList.appendChild(newOpt);
 });
 
-// Subscribe to poll trigger
-var channel = pusher.subscribe('poll');
+document.getElementById("question-submit").addEventListener("click", () => {
+  let questionInput = document.getElementById("question-input").value;
+  let choices = [];
 
-// Listen to vote event
-channel.bind('vote', function(data) {
-  for (i = 0; i < (data.length - 1); i++) { 
-    var total = data[0].votes + data[1].votes + data[2].votes + data[3].votes
-    document.getElementById(data[i].name).style.width = calculatePercentage(total, data[i].votes)
-    document.getElementById(data[i].name).style.background = "#388e3c" 
+  for (var i = 0; i < optList.children.length; i++) {
+    choices.push(optList.children[i].value);
   }
-});
 
-let calculatePercentage = function(total, amount) {
-  return (amount / total) * 100 + "%"
-}
+  const urlParams = new URLSearchParams(window.location.search);
+  const pollid = urlParams.get("pollid");
+  console.log(pollid);
+  axios
+    .post("/polls", {
+      question: questionInput,
+      choices: choices,
+      poll_id: pollid,
+    })
+    .then((response) => {
+      console.log(response.data);
+      window.location.href = response.data.pollurl;
+    });
+});
