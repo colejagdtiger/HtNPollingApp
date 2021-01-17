@@ -1,7 +1,13 @@
 # main app file
 
 from flask import Flask, render_template, request, jsonify, make_response, redirect
-from database import create_connection, select_all_items, update_item
+from database import (
+    create_connection,
+    select_all_items,
+    update_item,
+    set_question_for_pollid,
+    get_question_for_pollid,
+)
 from flask_cors import CORS, cross_origin
 from pusher import Pusher
 import simplejson
@@ -46,13 +52,14 @@ def index():
 @app.route("/polls", methods=["POST"])
 def publish():
     data = simplejson.loads(request.data)
-    print(data)
+    set_question_for_pollid(c, data["poll_id"], data["question"])
     return jsonify({"pollurl": "/polls/{0}".format(data["poll_id"])})
 
 
 @app.route("/polls/<pollid>", methods=["GET"])
 def poll(pollid):
-    return render_template("poll.html")
+    question_for_id = get_question_for_pollid(conn, pollid)[0]["content"]
+    return render_template("poll.html", question=question_for_id)
 
 
 @app.route("/admin")
