@@ -12,7 +12,7 @@ def create_connection(database):
     except Error as e:
         print(e)
 
-def create_table(c):
+def create_table(conn):
     sql = """ 
         CREATE TABLE IF NOT EXISTS items (
             id integer PRIMARY KEY,
@@ -20,38 +20,40 @@ def create_table(c):
             votes integer NOT NULL Default 0
         ); 
     """
-    c.execute(sql)
+    conn.execute(sql)
 
-def create_item(c, item):
+def create_item(conn, item):
     sql = ''' INSERT INTO items(name)
                 VALUES (?) '''
-    c.execute(sql, item)
+    conn.execute(sql, [item])
 
-def update_item(c, item):
+def update_item(conn, sign, item):
     sql = ''' UPDATE items
-                SET votes = votes+1 
+                SET votes = votes+? 
                 WHERE name = ? '''
-    c.execute(sql, item)
+    conn.execute(sql, [sign, item])
 
-def select_all_items(c, name):
+def select_all_items(conn, name):
     sql = ''' SELECT * FROM items '''
-    c.execute(sql)
+    conn.execute(sql)
 
-    rows = c.fetchall()
+    rows = conn.fetchall()
     rows.append({'name' : name})
     return json.dumps(rows)
 
-def create_session(c, link): #incomplete still
-    pass
+def create_session(conn, link): #incomplete still
+    database = "./pythonsqlite.db"
+    conn = create_connection(database)
+    create_table(conn)
+    create_item(conn, "Yes")
+    create_item(conn, "No")
 
 def main():
     database = "./pythonsqlite.db"
     conn = create_connection(database)
     create_table(conn)
-    create_item(conn, ["Go"])
-    create_item(conn, ["Python"])
-    create_item(conn, ["PHP"])
-    create_item(conn, ["Ruby"])
+    create_item(conn, "Yes")
+    create_item(conn, "No")
     print("Connection established!")
 
 if __name__ == '__main__':

@@ -15,32 +15,45 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 pusher = Pusher(
 app_id='1139320',
 key='4ac52c799ded4e369788',
-secret=os.getenv("PUSHER_SECRET"),
+secret='SECRET_KEY',
 cluster='us2',
 ssl=True)
 
 database = "./pythonsqlite.db"
 conn = create_connection(database)
 c = conn.cursor()
+hour = 3600
+question = 'Hello World'
 
 def main():
-    global conn, c
+    global conn, c, question
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', var=question)
 
-@app.route('/admin')
+@app.route('/admin', methods=['POST'])
 def admin():
+    # if (request.methods
+    question = request.form.get('textbox')
+    print(question)
     return render_template('admin.html')
 
 @app.route('/vote', methods=['POST'])
 def vote():
     data = simplejson.loads(request.data)
-    update_item(c, [data['member']])
-    output = select_all_items(c, [data['member']])
+    v = request.cookies.get('vote', '0')
+    print(v)
+    if (v != data['member']):
+        if (v != ''):
+            update_item(c, -1, v)
+        update_item(c, 1, data['member'])
+    output = select_all_items(c, data['member'])
     pusher.trigger(u'poll', u'vote', output)
-    return request.data
+    responce = make_response("")
+    responce.set_cookie('vote', data['member'], 3600)
+    return responce
+    
 
 if __name__ == '__main__':
     main()
