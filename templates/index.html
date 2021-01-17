@@ -110,7 +110,7 @@
       <div id="right-wrap">
         <div id="question-wrap">
           <p class="question-text">Create a poll</p>
-          <input type="text" placeholder="Ask a question" />
+          <input id="question-input" type="text" placeholder="Ask a question" />
           <p id="options-label">Options</p>
           <div id="options-list">
             <input type="text" placeholder="Option 1" />
@@ -120,20 +120,6 @@
         </div>
       </div>
     </div>
-    <script>
-      let optCount = 1;
-      let optList = document.getElementById("options-list");
-
-      document
-        .getElementById("options-new")
-        .addEventListener("click", (event) => {
-          let newOpt = document.createElement("input");
-          newOpt.type = "text";
-          newOpt.placeholder = `Option ${++optCount}`;
-          optList.appendChild(newOpt);
-        });
-    </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
     <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
     <script
