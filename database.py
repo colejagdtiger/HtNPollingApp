@@ -25,6 +25,16 @@ def create_questions_table(c):
     c.execute(sql)
 
 
+def create_options_table(c):
+    sql = """
+        CREATE TABLE IF NOT EXISTS options (
+            pollid varchar(8) NOT NULL,
+            optname varchar(127) NOT NULL
+        )
+    """
+    c.execute(sql)
+
+
 def get_question_for_pollid(c, pollid):
     sql = """
         SELECT content FROM questions WHERE pollid = ? ORDER BY id DESC LIMIT 1
@@ -41,6 +51,28 @@ def set_question_for_pollid(c, pollid, content):
         VALUES (?, ?)
     """
     c.execute(sql, (pollid, content))
+
+
+def set_options_for_pollid(c, pollid, options):
+    sql1 = """
+        DELETE from options WHERE pollid = ?
+    """
+    c.execute(sql1, (pollid,))
+
+    for i in range(len(options)):
+        sql2 = """
+            INSERT into options(pollid, optname) VALUES (?, ?) """
+        c.execute(sql2, (pollid, options[i]))
+
+
+def get_options_for_pollid(c, pollid):
+    sql = """
+        SELECT * FROM options WHERE pollid = ?
+    """
+    cur = c.cursor()
+    cur.execute(sql, (pollid,))
+    rows = cur.fetchall()
+    return rows
 
 
 def create_table(c):
@@ -84,6 +116,7 @@ def main():
     database = "./pythonsqlite.db"
     conn = create_connection(database)
     create_questions_table(conn)
+    create_options_table(conn)
     print("Connection established!")
 
 
