@@ -29,6 +29,8 @@
 
       #question-wrap {
         margin: 0 20%;
+        display: flex;
+        flex-direction: column;
       }
 
       #question-wrap .question-text {
@@ -51,6 +53,21 @@
 
       .question-option-wrap label {
         font-weight: bold;
+      }
+
+      #question-submit {
+        border: none;
+        background-color: #057df6;
+        padding: 12px;
+        color: white;
+        align-self: center;
+        margin-top: 4px;
+        margin-left: auto;
+        cursor: pointer;
+      }
+
+      #question-submit:hover {
+        background-color: #041e37;
       }
 
       @media (max-width: 500px) {
@@ -83,6 +100,7 @@
           <div class="question-option-wrap">
             <label>No</label><input type="radio" />
           </div>
+          <button id="question-submit">Vote</button>
         </div>
       </div>
     </div>
