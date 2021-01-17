@@ -47,6 +47,12 @@ def index():
 def publish():
     data = simplejson.loads(request.data)
     print(data)
+    return jsonify({"pollurl": "/polls/{0}".format(data["poll_id"])})
+
+
+@app.route("/polls/<pollid>", methods=["GET"])
+def poll(pollid):
+    return render_template("poll.html")
 
 
 @app.route("/admin")
