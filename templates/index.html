@@ -16,18 +16,39 @@
         background-color: firebrick;
       }
       #left-wrap {
-        flex-grow: 1;
+        width: 35vw;
         background-color: #041e37;
       }
       #right-wrap {
-        flex-grow: 1.2;
+        width: 65vw;
         background-color: white;
         display: flex;
         flex-direction: column;
         justify-content: center;
       }
       #right-wrap #question-wrap {
-        margin: 0 auto;
+        margin: 0 20%;
+      }
+
+      #question-wrap .question-text {
+        font-size: 1.7em;
+        color: #057df6;
+        font-weight: bold;
+      }
+
+      .question-option-wrap {
+        padding: 12px;
+        border: 1px solid #ddedfd;
+        display: flex;
+        flex-direction: row;
+      }
+
+      .question-option-wrap input {
+        margin: 0 0 0 auto;
+      }
+
+      .question-option-wrap label {
+        font-weight: bold;
       }
 
       @media (max-width: 500px) {
@@ -42,9 +63,13 @@
       <div id="left-wrap"></div>
       <div id="right-wrap">
         <div id="question-wrap">
-          <p>Do you believe the climate is changing?</p>
-          <div><label>Yes</label><input type="radio" /></div>
-          <div><label>No</label><input type="radio" /></div>
+          <p class="question-text">Do you believe the climate is changing?</p>
+          <div class="question-option-wrap">
+            <label>Yes</label><input type="radio" />
+          </div>
+          <div class="question-option-wrap">
+            <label>No</label><input type="radio" />
+          </div>
         </div>
       </div>
     </div>
