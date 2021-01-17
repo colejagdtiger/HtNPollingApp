@@ -97,7 +97,7 @@
           {% for choice in choices %}
           <div class="question-option-wrap">
             <label>{{ choice }}</label
-            ><input name="choice" type="radio" />
+            ><input name="choice" value="{{ choice }}" type="radio" />
           </div>
           {% endfor %}
           <button id="question-submit">Vote</button>

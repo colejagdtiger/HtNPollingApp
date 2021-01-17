@@ -3,12 +3,12 @@
 from flask import Flask, render_template, request, jsonify, make_response, redirect
 from database import (
     create_connection,
-    select_all_items,
-    update_item,
     set_question_for_pollid,
     get_question_for_pollid,
     set_options_for_pollid,
     get_options_for_pollid,
+    inc_vote,
+    get_votes,
 )
 from flask_cors import CORS, cross_origin
 from pusher import Pusher
@@ -78,9 +78,8 @@ def admin():
 @app.route("/vote", methods=["POST"])
 def vote():
     data = simplejson.loads(request.data)
-    update_item(c, [data["member"]])
-    output = select_all_items(c, [data["member"]])
-    pusher.trigger(u"poll", u"vote", output)
+    inc_vote(conn, data["poll_id"], data["optname"])
+    pusher.trigger(u"poll", u"vote", get_votes(conn, data["poll_id"], data["optname"]))
     return request.data
 
 
