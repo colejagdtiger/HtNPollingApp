@@ -43,6 +43,12 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/polls", methods=["POST"])
+def publish():
+    data = simplejson.loads(request.data)
+    print(data)
+
+
 @app.route("/admin")
 def admin():
     return render_template("admin.html")
