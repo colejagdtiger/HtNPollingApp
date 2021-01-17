@@ -26,7 +26,7 @@ hour = 3600
 question = 'Hello World'
 
 def main():
-    global conn, cur, question
+    global conn, cur
 
 @app.route('/')
 def index():
@@ -35,8 +35,8 @@ def index():
 @app.route('/admin', methods=['POST'])
 def admin():
     # if (request.methods
+    global question
     question = request.form.get('textbox')
-    print(question)
     return render_template('admin.html')
 
 @app.route('/vote', methods=['POST'])
